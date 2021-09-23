@@ -1,6 +1,6 @@
 name: api production
 
-# on: push
+on: push
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
         hosts: 'ubuntu@140.238.219.21'
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
         command: |
-          rm -rf ./monorepo
+          rm -rf ./ctrlpaint
     - name: Deploy artifact to host
       uses: wlixcc/SFTP-Deploy-Action@v1.2.1
       with:
@@ -22,7 +22,7 @@ jobs:
         server: '140.238.219.21'
         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
         local_path: '.'
-        remote_path: '/home/ubuntu/monorepo/'
+        remote_path: '/home/ubuntu/ctrlpaint/'
         args: '-o ConnectTimeout=5'
     - name: Install dependencies
       uses: JimCronqvist/action-ssh@0.1.1
@@ -30,7 +30,7 @@ jobs:
         hosts: 'ubuntu@140.238.219.21'
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
         command: |
-          cd ./monorepo
+          cd ./ctrlpaint
           npm ci
     - name: Bootstrap application
       uses: JimCronqvist/action-ssh@0.1.1
@@ -38,7 +38,7 @@ jobs:
         hosts: 'ubuntu@140.238.219.21'
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
         command: |
-          cd ./monorepo
+          cd ./ctrlpaint
           npm run build
     - name: Run builded api application in pm2 daemon
       uses: JimCronqvist/action-ssh@0.1.1
@@ -46,5 +46,5 @@ jobs:
         hosts: 'ubuntu@140.238.219.21'
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
         command: |
-          cd ./monorepo/packages/api
+          cd ./ctrlpaint/packages/api
           pm2 start ecosystem.config.js

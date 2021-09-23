@@ -22,5 +22,5 @@ export default async function(): Promise<void> {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);
 
-  await app.listen(process.env.MODE === "PRODUCTION" ? 3000 : 3001);
+  await app.listen(process.env.MODE === "PRODUCTION" ? 4000 : 3001);
 };
