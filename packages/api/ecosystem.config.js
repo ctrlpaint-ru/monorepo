@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: "pawcapsu-api",
+    name: "ctrlpaint-api",
     script: "./dist/main.js",
     env: {
       MODE: "PRODUCTION",
